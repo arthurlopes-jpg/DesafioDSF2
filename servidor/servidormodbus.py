@@ -1,10 +1,11 @@
-from pyModbusTCP.server import DataBank, ModbusServer
+from pyModbusTCP.server import ModbusServer, DataBank
 import random
 import struct
 from time import sleep
 
 class ServidorMODBUS():
     def __init__(self, host_ip, port):
+        # Cria o banco de dados e o servidor (formato moderno)
         self._db = DataBank()
         self._server = ModbusServer(host=host_ip, port=port, no_block=True, data_bank=self._db)
         

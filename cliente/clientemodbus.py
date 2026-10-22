@@ -1,4 +1,5 @@
 from pymodbus.client import ModbusTcpClient
+from time import sleep
 
 class ClienteMODBUS():
     """Classe responsável apenas pela comunicação Modbus. Sem prints ou inputs."""
@@ -65,8 +66,9 @@ class ClienteMODBUS():
             # Escreve o novo valor no registrador
             return self.escrever_holding_register(addr, valor)
         return False
-    # =====================================================================
-# DEMONSTRAÇÕES EXIGIDAS PELA ATIVIDADE (Execução direta do módulo)
+
+# =====================================================================
+# DEMONSTRAÇÕES EXIGIDAS PELA ATIVIDADE ////// USADO IA NO PROCESSO EDUCATIVO \\\\\\ 
 # =====================================================================
 if __name__ == '__main__':
     c = ClienteMODBUS('localhost', 502)
@@ -81,11 +83,14 @@ if __name__ == '__main__':
         if c.ler_holding_registers(9999) is None:
             print("FALHA ESPERADA: Endereço 9999 inexistente. A classe sinalizou o erro retornando None.\n")
 
-        # A) Emulação (Lê os 10 dados com 2 repetições)
+        # A) Emulação (Lê os 10 dados com 2 repetições para ver a flutuação)
         print("[1] EMULAÇÃO (Valores Flutuando):")
         for i in range(2):
             print(f" -> Leitura {i+1}:")
-            print(f"    TEMP_R: {c.ler_float(700):.1f} | PIT01: {c.ler_float(710):.1f} | Freq: {c.ler_holding_registers(830)[0]}")
+            print(f"    1. TEMP_R: {c.ler_float(700):.1f} | 2. TEMP_S: {c.ler_float(702):.1f} | 3. TEMP_T: {c.ler_float(704):.1f}")
+            print(f"    4. TEMP_CARC: {c.ler_float(706):.1f} | 5. PIT01: {c.ler_float(710):.1f} | 6. FIT01: {c.ler_float(712):.1f}")
+            print(f"    7. Freq: {c.ler_holding_registers(830)[0]} | 8. Corr R: {c.ler_holding_registers(840)[0]}")
+            print(f"    9. Tensao RS: {c.ler_holding_registers(847)[0]} | 10. FP R: {c.ler_holding_registers(868)[0]}")
             sleep(1.5)
 
         # B) Escala
