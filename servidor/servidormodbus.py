@@ -58,13 +58,18 @@ class ServidorMODBUS():
                     
                 self.set_float(712, fit01)
 
-                # Evolução temporal coerente (flutuação nas medições)
-                temp_r = self.get_float(700) + random.uniform(-0.5, 0.5)
-                self.set_float(700, temp_r)
+                # Leitura (valor de engenharia = valor armazenado / D)
+                temp_r_engenharia = self.get_float(700) / 10.0
+                
+                # Flutuação temporal no valor de engenharia
+                temp_r_engenharia += random.uniform(-0.5, 0.5)
+                
+                # Escrita (valor armazenado = valor de engenharia * D)
+                self.set_float(700, temp_r_engenharia * 10.0)
                 
                 print('===================================')
                 print(f"Habilita (Bit 6): {habilita_bit6} | SP_PID: {sp_pid:.1f}")
-                print(f"FIT01 (Vazão atual): {fit01:.1f} | TEMP_R: {temp_r/10:.2f}")
+                print(f"FIT01 (Vazão atual): {fit01:.1f} | TEMP_R (Engenharia): {temp_r_engenharia:.2f}")
                 sleep(1)
                 
         except Exception as e:
