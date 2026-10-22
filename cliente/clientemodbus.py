@@ -36,3 +36,15 @@ class ClienteMODBUS():
         regs = self._cliente.convert_to_registers(valor_float, self._cliente.DATATYPE.FLOAT32)
         resp = self._cliente.write_registers(address=addr, values=regs, device_id=1)
         return bool(resp and not resp.isError())
+    
+    # ==========================================
+    # 3.2 Leitura dos bits de um registrador
+    # ==========================================
+    def ler_bits(self, addr):
+        """Lê um registrador e retorna uma lista com o estado dos 16 bits (0 a 15)."""
+        regs = self.ler_holding_registers(addr, count=1)
+        if regs:
+            valor = regs[0]
+            # Extrai cada bit usando deslocamento (shift) e máscara lógica AND
+            return [(valor >> i) & 1 for i in range(16)]
+        return None
